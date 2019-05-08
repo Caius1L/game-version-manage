@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.handarui.game.dao.util.MyMapper"/>
+        </plugin>
+
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://dev.jingzheit.com:3306/game_number?characterEncoding=utf-8&amp;useSSL=false"
+                        userId="root"
+                        password="Tryme!23"/>
+
+        <!--默认false
+           Java type resolver will always use java.math.BigDecimal if the database column is of type DECIMAL or NUMERIC.
+         -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--生成实体类 指定包名 以及生成的地址 （可以自定义地址，但是路径不存在不会自动创建  使用Maven生成在target目录下，会自动创建） -->
+        <javaModelGenerator targetPackage="com.handarui.game.dao.domain" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成SQLMAP文件 -->
+        <sqlMapGenerator targetPackage="com.handarui.game.dao.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--生成Dao文件 可以配置 type="XMLMAPPER"生成xml的dao实现  context id="DB2Tables" 修改targetRuntime="MyBatis3"  -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.handarui.game.dao.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- schema-库名,tableName-表名,catalog-生成的文件所在子包,需要enableSubPackages为true,domainObjectName-生成的Bean类名 -->
+
+        <!-- 生成全部
+          mvn mybatis-generator:generate
+      -->
+        <!-- 生成单表
+            mvn -Dmybatis.generator.contexts=Mysql -Dmybatis.generator.tableNames=app_user -Dmybatis.generator.overwrite=true mybatis-generator:generate
+        -->
+        <!--<table tableName="attach" domainObjectName="AttachDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="game_id" property="gameId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>-->
+        <!--<table tableName="version_material" domainObjectName="VersionMaterialDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="game_id" property="gameId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>-->
+        <!--<table tableName="record_material" domainObjectName="RecordMaterialDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="game_id" property="gameId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="unit_id" property="unitId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>-->
+        <table tableName="game" domainObjectName="GameDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="sort" property="sort" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="publish_fee" property="publishFee" javaType="java.lang.Double" jdbcType="DECIMAL"/>
+            <columnOverride column="process" property="process" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="approval_time" property="approvalTime" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="accept_time" property="acceptTime" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+        <!--  <table tableName="record_unit" domainObjectName="RecordUnitDo" enableCountByExample="false">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+              <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+              <columnOverride column="game_id" property="gameId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+              <columnOverride column="status" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+              <columnOverride column="material_type" property="materialType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+              <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+              <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+              <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+          </table>-->
+        <!--<table tableName="user" domainObjectName="UserDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+        <table tableName="role" domainObjectName="RoleDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+        <table tableName="permission" domainObjectName="PermissionDo" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+        <table tableName="user_role" domainObjectName="UserRoleDo" enableCountByExample="false">
+            <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="user_id" property="userId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="role_id" property="roleId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+        <table tableName="role_permission" domainObjectName="RolePermissionDo" enableCountByExample="false">
+            <generatedKey column="role_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="role_id" property="roleId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="permission_id" property="permissionId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>-->
+
+        <table tableName="copyright_info" domainObjectName="CopyrightInfoDO" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="applicant" property="applicant" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="drawer" property="drawer" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="draw_department" property="drawDepartment" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="note" property="note" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="category" property="category" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="status" property="status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="is_changed" property="isChanged" javaType="java.lang.Boolean" jdbcType="TINYINT"/>
+            <columnOverride column="register_number" property="registerNumber" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="finished_time" property="finishedTime" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="register_time" property="registerTime" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="payment_invoice" property="paymentInvoice" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="author" property="author" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="copyright_attach" domainObjectName="CopyrightAttachDO" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="copyright_id" property="copyrightId" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="file" property="file" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="patent_info" domainObjectName="PatentInfoDO" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="number" property="number" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="apply_number" property="applyNumber" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="apply_time" property="applyTime" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="status" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="invention_designer" property="inventionDesigner" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="applicant" property="applicant" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="agent_unit" property="agentUnit" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="drawer" property="drawer" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="draw_department" property="drawDepartment" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="current_year_payment" property="currentYearPayment" javaType="java.lang.Boolean"
+                            jdbcType="TINYINT"/>
+            <columnOverride column="current_annual_fee_year" property="currentAnnualFeeYear" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="next_year_annual_fee_payment_time" property="nextYearAnnualFeePaymentTime"
+                            javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="funding_receipt" property="fundingReceipt" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="note" property="note" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="technical_feature" property="technicalFeature" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="announcement_day" property="announcementDay" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="announcementNumber" property="announcementNumber" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="bonus_payment" property="bonusPayment" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="patent_attach" domainObjectName="PatentAttachDO" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="product_patent_id" property="patentId" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="file" property="file" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="trademark_info" domainObjectName="TrademarkInfoDO" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="category" property="category" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="accept_registration_number" property="acceptRegistrationNumber"
+                            javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="apply_time" property="applyTime" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="status" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+            <columnOverride column="registration_time" property="registrationTime" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="validity_period" property="validityPeriod" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="applicant" property="applicant" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="product_service_list" property="productServiceList" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="draw_department" property="drawDepartment" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="agency" property="agency" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="expiration_reminder_time" property="expirationReminderTime"
+                            javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="funding_receipt" property="fundingReceipt" javaType="java.lang.String"
+                            jdbcType="VARCHAR"/>
+            <columnOverride column="note" property="note" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+
+        <table tableName="trademark_attach" domainObjectName="TrademarkAttachDO" enableCountByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="trademark_info_id" property="trademarkInfoId" javaType="java.lang.Long"
+                            jdbcType="INTEGER"/>
+            <columnOverride column="file" property="file" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="type" property="type" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="status" property="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <columnOverride column="created_at" property="createdAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="updated_at" property="updatedAt" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="is_deleted" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        </table>
+    </context>
+
+</generatorConfiguration>

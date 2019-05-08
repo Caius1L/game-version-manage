@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handarui.game.dao.mapper.RecordMaterialDoMapper">
+  <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.RecordMaterialDo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="game_id" jdbcType="INTEGER" property="gameId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="created_at" jdbcType="INTEGER" property="createdAt" />
+    <result column="updated_at" jdbcType="INTEGER" property="updatedAt" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+  </resultMap>
+    <select id="selectByGameId" resultMap="BaseResultMap">
+      SELECT id,game_id,unit_id,type,file,name,created_at,updated_at,is_deleted
+      FROM record_material
+      WHERE game_id = #{gameId} and is_deleted = 0
+    </select>
+</mapper>

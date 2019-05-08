@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handarui.game.dao.mapper.UserDoMapper">
+    <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.UserDo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="login" property="login" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="department" property="department" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="INTEGER"/>
+        <result column="updated_at" property="updatedAt" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+    </resultMap>
+    <select id="getByLogin" resultMap="BaseResultMap">
+      SELECT id,login,name,password,department,phone,email,created_at,updated_at,is_deleted
+      FROM user
+      WHERE is_deleted = 0 AND login = #{login}
+    </select>
+
+    <resultMap id="SysUserBeanMap" type="com.handarui.game.biz.bean.SysUserBean">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="login" property="login" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="department" property="department" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getUserList" resultMap="SysUserBeanMap">
+      SELECT id,login,name,department,phone,email
+      FROM user
+      <where>
+          <if test="query!=null and query.login!=null">
+              AND login = #{query.login}
+          </if>
+          <if test="query!=null and query.name!=null">
+              AND name = #{query.name}
+          </if>
+          <if test="query!=null and query.department!=null">
+              AND department = #{query.department}
+          </if>
+          and is_deleted = 0
+      </where>
+    </select>
+    <update id="deleteBatch">
+        UPDATE user
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <update id="deleteUserRole">
+        UPDATE user_role
+        SET is_deleted = 1
+        WHERE user_id = #{userId}
+    </update>
+    <insert id="insertUserRoleBatch">
+        INSERT INTO user_role(user_id, role_id, created_at, updated_at, is_deleted) VALUES
+        <foreach collection="roles"  separator="," item="role">
+            (#{userId},#{role.id},UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),0)
+        </foreach>
+    </insert>
+</mapper>

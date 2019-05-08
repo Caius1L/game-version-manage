@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handarui.game.dao.mapper.RoleDoMapper">
+    <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.RoleDo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="INTEGER"/>
+        <result column="updated_at" property="updatedAt" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+    </resultMap>
+    <select id="getUserRole" resultMap="BaseResultMap">
+    SELECT r.id,r.name,r.created_at,r.updated_at,r.is_deleted
+    FROM role r RIGHT JOIN user_role ur on ur.role_id = r.id
+    WHERE ur.user_id = #{userId} and r.is_deleted = 0 and ur.is_deleted = 0
+  </select>
+    <select id="getRoleList" resultMap="BaseResultMap">
+        SELECT id,name,created_at,updated_at,is_deleted
+        FROM role
+        WHERE is_deleted = 0
+    </select>
+    <update id="deleteBatch">
+        UPDATE permission
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <update id="deleteRolePermission">
+        UPDATE role_permission SET is_deleted = 1 WHERE role_id = #{id}
+    </update>
+    <insert id="insertRolePermissionBatch">
+        INSERT INTO role_permission(role_id, permission_id, created_at, updated_at, is_deleted) VALUES
+        <foreach collection="permissions" separator="," item="permission">
+            (#{roleId},#{permission.id},UNIX_TIMESTAMP(),UNIX_TIMESTAMP(),0)
+        </foreach>
+    </insert>
+</mapper>

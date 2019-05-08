@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handarui.game.dao.mapper.PatentInfoDOMapper">
+
+    <select id="getPatentList" resultType="com.handarui.game.biz.bean.PatentListBean">
+        select id,name,number,type,apply_number as applyNumber,apply_time as applyTime,status,invention_designer as
+        inventionDesigner,applicant,agent_unit as agentUnit,drawer,draw_department as drawDepartment,current_year_payment as
+        currentYearPayment,current_annual_fee_year as currentAnnualFeeYear,next_year_annual_fee_payment_time as
+        nextYearAnnualFeePaymentTime,funding_receipt as fundingReceipt,
+        technical_feature as technicalFeature,bonus_payment as bonusPayment
+        from patent_info pi
+        <where>
+            pi.is_deleted=0
+            <if test="department!=null and department!=''">
+                and pi.draw_department = #{department}
+            </if>
+            <if test="data!=null">
+                <if test="data.name!=null and data.name!=''">
+                    and pi.name like concat('%',#{data.name},'%')
+                </if>
+                <if test="data.drawDepartment!=null and data.drawDepartment!=''">
+                    and pi.draw_department like concat('%',#{data.drawDepartment},'%')
+                </if>
+                <if test="data.type!=null">
+                    and pi.type = #{data.type}
+                </if>
+                <if test="data.applicant!=null">
+                    and pi.applicant like concat('%',#{data.applicant},'%')
+                </if>
+                <if test="data.currentYearPayment!=null">
+                    and pi.current_year_payment = #{data.currentYearPayment}
+                </if>
+            </if>
+        </where>
+    </select>
+</mapper>

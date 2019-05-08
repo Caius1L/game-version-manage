@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handarui.game.dao.mapper.PermissionDoMapper">
+    <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.PermissionDo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="INTEGER"/>
+        <result column="updated_at" property="updatedAt" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+    </resultMap>
+    <select id="getRolePermission" resultMap="BaseResultMap">
+        SELECT DISTINCT p.id,p.name,p.url,p.created_at,p.updated_at,p.is_deleted
+        FROM permission p RIGHT JOIN role_permission rp on rp.permission_id = p.id
+        WHERE rp.role_id IN
+        <foreach collection="roleIds" open="(" separator="," close=")" item="roleId">
+            #{roleId}
+        </foreach>
+        and p.is_deleted = 0 and rp.is_deleted = 0
+    </select>
+    <select id="getPermissionList" resultMap="BaseResultMap">
+        SELECT id,name,url,created_at,updated_at,is_deleted
+        FROM permission
+        WHERE is_deleted = 0
+    </select>
+    <update id="deleteBatch">
+        UPDATE permission
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <select id="getPermissionByRoleId" resultMap="BaseResultMap">
+        SELECT p.id,p.name,p.url,p.created_at,p.updated_at,p.is_deleted
+        FROM role_permission rp LEFT JOIN permission p ON rp.permission_id = p.id
+        WHERE rp.role_id = #{roleId} and p.is_deleted = 0 and rp.is_deleted = 0
+    </select>
+</mapper>

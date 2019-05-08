@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handarui.game.dao.mapper.TrademarkInfoDOMapper">
+    <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.TrademarkInfoDO">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="category" jdbcType="TINYINT" property="category"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="accept_registration_number" jdbcType="VARCHAR" property="acceptRegistrationNumber"/>
+        <result column="apply_time" jdbcType="INTEGER" property="applyTime"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="registration_time" jdbcType="INTEGER" property="registrationTime"/>
+        <result column="validity_period" jdbcType="INTEGER" property="validityPeriod"/>
+        <result column="applicant" jdbcType="VARCHAR" property="applicant"/>
+        <result column="product_service_list" jdbcType="VARCHAR" property="productServiceList"/>
+        <result column="draw_department" jdbcType="VARCHAR" property="drawDepartment"/>
+        <result column="agency" jdbcType="VARCHAR" property="agency"/>
+        <result column="expiration_reminder_time" jdbcType="INTEGER" property="expirationReminderTime"/>
+        <result column="funding_receipt" jdbcType="VARCHAR" property="fundingReceipt"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="created_at" jdbcType="INTEGER" property="createdAt"/>
+        <result column="updated_at" jdbcType="INTEGER" property="updatedAt"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+    </resultMap>
+
+    <select id="getTrademarkList" resultType="com.handarui.game.biz.bean.TrademarkListBean">
+        select id,name,category,type,accept_registration_number as acceptRegistrationNumber,apply_time as applyTime,
+        status,registration_time as registrationTime,validity_period as validityPeriod,applicant,product_service_list as
+        productServiceList,
+        draw_department as drawDepartment,agency,expiration_reminder_time as expirationReminderTime,funding_receipt as
+        fundingReceipt,note
+        from trademark_info ti
+        <where>
+            ti.is_deleted=0
+            <if test="data!=null">
+                <if test="data.drawDepartment!=null and data.drawDepartment!=''">
+                    and ti.draw_department like concat('%',#{data.drawDepartment},'%')
+                </if>
+                <if test="data.name!=null and data.name!=''">
+                    and ti.name like concat('%',#{data.name},'%')
+                </if>
+                <if test="data.category!=null">
+                    and ti.category = #{data.category}
+                </if>
+                <if test="data.applicant!=null and data.applicant!=''">
+                    and ti.applicant like concat('%',#{data.applicant},'%')
+                </if>
+                <if test="data.status!=null">
+                    and ti.status = #{data.status}
+                </if>
+            </if>
+        </where>
+    </select>
+
+</mapper>

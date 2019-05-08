@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handarui.game.dao.mapper.CopyrightDOMapper">
+    <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.CopyrightInfoDO">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="applicant" jdbcType="VARCHAR" property="applicant"/>
+        <result column="drawer" jdbcType="VARCHAR" property="drawer"/>
+        <result column="draw_department" jdbcType="VARCHAR" property="drawDepartment"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="category" jdbcType="TINYINT" property="category"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="is_changed" jdbcType="TINYINT" property="isChanged"/>
+        <result column="register_number" jdbcType="VARCHAR" property="registerNumber"/>
+        <result column="finished_time" jdbcType="INTEGER" property="finishedTime"/>
+        <result column="register_time" jdbcType="INTEGER" property="registerTime"/>
+        <result column="payment_invoice" jdbcType="VARCHAR" property="paymentInvoice"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="created_at" jdbcType="INTEGER" property="createdAt"/>
+        <result column="updated_at" jdbcType="INTEGER" property="updatedAt"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+    </resultMap>
+
+    <select id="selectCopyrightList" resultType="com.handarui.game.biz.bean.CopyrightListBean">
+        select id,name,number,type,applicant,drawer,draw_department as drawDepartment,note,category,status,
+        is_changed as changed,register_number as registerNumber,finished_time as finishedTime,
+        register_time as registerTime,payment_invoice as paymentInvoice,author
+        from copyright_info ci
+        <where>
+            ci.is_deleted =0
+            <if test="departmentName!=null and departmentName!=''">
+                and ci.draw_department = #{data.departmentName}
+            </if>
+            <if test="data!=null">
+                <if test="data.drawDepartment!=null and data.drawDepartment!=''">
+                    and ci.draw_department like concat('%',#{data.drawDepartment},'%')
+                </if>
+                <if test="data.name!=null and data.name!=''">
+                    and ci.name like concat('%',#{data.name},'%')
+                </if>
+                <if test="data.applicant!=null and data.applicant!=''">
+                    and ci.applicant like concat('%',#{data.applicant},'%')
+                </if>
+                <if test="data.category!=null">
+                    and ci.category =#{data.category}
+                </if>
+                <if test="data.type!=null">
+                    and ci.type =#{data.type}
+                </if>
+                <if test="data.status!=null">
+                    and ci.status =#{data.status}
+                </if>
+            </if>
+        </where>
+        order by ci.id desc
+    </select>
+
+</mapper>

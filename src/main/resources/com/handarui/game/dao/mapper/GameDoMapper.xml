@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handarui.game.dao.mapper.GameDoMapper">
+  <resultMap id="BaseResultMap" type="com.handarui.game.dao.domain.GameDo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="publish_unit" jdbcType="VARCHAR" property="publishUnit" />
+    <result column="copyright_unit" jdbcType="VARCHAR" property="copyrightUnit" />
+    <result column="operation_unit" jdbcType="VARCHAR" property="operationUnit" />
+    <result column="sort" jdbcType="TINYINT" property="sort" />
+    <result column="archive_number" jdbcType="VARCHAR" property="archiveNumber" />
+    <result column="record_number" jdbcType="VARCHAR" property="recordNumber" />
+    <result column="copyright_number" jdbcType="VARCHAR" property="copyrightNumber" />
+    <result column="submit_user_name" jdbcType="VARCHAR" property="submitUserName" />
+    <result column="submit_department" jdbcType="VARCHAR" property="submitDepartment" />
+    <result column="submit_user_email" jdbcType="VARCHAR" property="submitUserEmail" />
+    <result column="submit_user_phone" jdbcType="VARCHAR" property="submitUserPhone" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="publish_fee" jdbcType="DECIMAL" property="publishFee" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="isbn_number" jdbcType="VARCHAR" property="isbnNumber" />
+    <result column="process" jdbcType="TINYINT" property="process" />
+    <result column="approval_time" jdbcType="INTEGER" property="approvalTime" />
+    <result column="accept_time" jdbcType="INTEGER" property="acceptTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="created_at" jdbcType="INTEGER" property="createdAt" />
+    <result column="updated_at" jdbcType="INTEGER" property="updatedAt" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+  </resultMap>
+
+    <resultMap id="BaseGameMap" type="com.handarui.game.biz.bean.BaseGameBean">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="copyright_unit" jdbcType="VARCHAR" property="copyrightUnit" />
+        <result column="operation_unit" jdbcType="VARCHAR" property="operationUnit" />
+        <result column="sort" jdbcType="TINYINT" property="sort" />
+        <result column="copyright_number" jdbcType="VARCHAR" property="copyrightNumber" />
+        <!--<result column="submit_department" jdbcType="VARCHAR" property="submitDepartment" />-->
+        <result column="record_number" jdbcType="VARCHAR" property="recordNumber" />
+        <result column="type" jdbcType="TINYINT" property="type" />
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+        <result column="isbn_number" jdbcType="VARCHAR" property="isbnNumber" />
+        <result column="process" jdbcType="TINYINT" property="process" />
+        <result column="record" jdbcType="BOOLEAN" property="record" />
+    </resultMap>
+
+    <sql id="baseGameColumn">
+      g.id,g.name,g.copyright_unit,g.operation_unit,g.sort,g.copyright_number,g.type,g.approval_number,g.isbn_number,g.process,
+      (SELECT COUNT(1)&gt;0 FROM record_unit r WHERE r.game_id = g.id and r.is_deleted = 0) as record,g.record_number
+    </sql>
+
+    <select id="selectBaseGameList" resultMap="BaseGameMap">
+        SELECT
+        <include refid="baseGameColumn" />
+        FROM game g
+        WHERE g.is_deleted = 0
+        <if test="data!=null and data.type!=null">
+            and g.type = #{data.type}
+        </if>
+        <if test="data!=null and data.submitDepartment!=null and data.submitDepartment!=''">
+            and g.submit_department = #{data.submitDepartment}
+        </if>
+        <if test="data!=null and data.name!=null and data.name!=''">
+            and g.name like concat(concat('%',#{data.name}),'%')
+        </if>
+        <if test="data!=null and data.copyrightUnit!=null and data.copyrightUnit!=''">
+            and g.copyright_unit = #{data.copyrightUnit}
+        </if>
+        <if test="data!=null and data.operationUnit!=null and data.operationUnit!=''">
+            and g.operation_unit = #{data.operationUnit}
+        </if>
+        <if test="department!=null and department!=''">
+            and g.submit_department = #{department}
+        </if>
+    </select>
+    <select id="selectBaseGameById" resultMap="BaseGameMap">
+        SELECT
+        <include refid="baseGameColumn" />
+        FROM game g
+        WHERE g.id = #{id} and g.is_deleted = 0
+    </select>
+
+    <update id="batchDeleteGame">
+        UPDATE game
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateNullValue">
+        UPDATE game
+        SET id = id
+        <if test="data.acceptTime==null">
+            ,accept_time = NULL
+        </if>
+        <if test="data.approvalTime==null">
+            ,approval_time = NULL
+        </if>
+        WHERE id = #{data.id}
+    </update>
+</mapper>
